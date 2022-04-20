@@ -13,17 +13,15 @@ const imapConfig = {
 let emailData = [];
 
 const getEmails = () => {
-  console.log(process.env.password);
     try {
       const imap = new Imap(imapConfig);
       imap.once('ready', () => {
         imap.openBox('INBOX', false, () => {
-          imap.search(['UNSEEN', ['SINCE', new Date()]], (err, results) => {
+          imap.search(['UNSEEN', ['SINCE', new Date('2022-04-11')]], (err, results) => {
             const f = imap.fetch(results, {bodies: ''});
             f.on('message', msg => {
               msg.on('body', stream => {
                 simpleParser(stream, async (err, parsed) => {
-                  console.log(process.env.password);
                     saveData(parsed)
                 });
               });
